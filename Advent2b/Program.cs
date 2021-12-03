@@ -11,9 +11,7 @@ namespace Advent2b
         {
             List<(string, int)> instructions = File.ReadAllLines(args[0]).Select(line => line.Split(' ')).Select(arr => (arr[0], int.Parse(arr[1]))).ToList();
 
-            int hor = 0;
-            int depth = 0;
-            int aim = 0;
+            int hor = 0, depth = 0, aim = 0;
             foreach (var (dir, value) in instructions)
             {
                 switch (dir)
