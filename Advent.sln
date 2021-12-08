@@ -9,25 +9,27 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Advent1b", "Advent1b\Advent
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Advent1a", "Advent1a\Advent1a.csproj", "{DF6FB970-A28D-4D62-9C2B-F7107D6BE524}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Advent2a", "Advent2a\Advent2a.csproj", "{43BFD40B-2854-41AC-95BF-54CDDDD70600}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Advent2a", "Advent2a\Advent2a.csproj", "{43BFD40B-2854-41AC-95BF-54CDDDD70600}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Advent2b", "Advent2b\Advent2b.csproj", "{CBBC529C-8304-4DC1-96FE-4FC27785DC86}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Advent2b", "Advent2b\Advent2b.csproj", "{CBBC529C-8304-4DC1-96FE-4FC27785DC86}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Advent3a", "Advent3a\Advent3a.csproj", "{206A0C5B-8F72-4EDC-B1A7-615EE2BCB85E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Advent3a", "Advent3a\Advent3a.csproj", "{206A0C5B-8F72-4EDC-B1A7-615EE2BCB85E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Advent3b", "Advent3b\Advent3b.csproj", "{FD3434B5-14C4-4A1A-8882-0DB799ADF072}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Advent3b", "Advent3b\Advent3b.csproj", "{FD3434B5-14C4-4A1A-8882-0DB799ADF072}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Advent4a", "Advent4a\Advent4a.csproj", "{910394FB-F9DF-4BBB-9502-A34D85F559E4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Advent4a", "Advent4a\Advent4a.csproj", "{910394FB-F9DF-4BBB-9502-A34D85F559E4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Advent4b", "Advent4b\Advent4b.csproj", "{B1985F8F-A5C8-4D79-AE1C-AEA1799995CC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Advent4b", "Advent4b\Advent4b.csproj", "{B1985F8F-A5C8-4D79-AE1C-AEA1799995CC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Advent5a", "Advent5a\Advent5a.csproj", "{B267B7BD-7A6F-43F4-B79B-52F536989C15}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Advent5a", "Advent5a\Advent5a.csproj", "{B267B7BD-7A6F-43F4-B79B-52F536989C15}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Advent6a", "Advent6a\Advent6a.csproj", "{D00B3557-2D34-4399-91B4-3BBCC9695388}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Advent6a", "Advent6a\Advent6a.csproj", "{D00B3557-2D34-4399-91B4-3BBCC9695388}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Advent6b", "Advent6b\Advent6b.csproj", "{21B92198-F3E2-4A23-BD2E-32CBC3843966}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Advent6b", "Advent6b\Advent6b.csproj", "{21B92198-F3E2-4A23-BD2E-32CBC3843966}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Advent7a", "Advent7a\Advent7a.csproj", "{E1E1E495-6A82-4498-872C-47B6CED30E24}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Advent7a", "Advent7a\Advent7a.csproj", "{E1E1E495-6A82-4498-872C-47B6CED30E24}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Advent8a", "Advent8a\Advent8a.csproj", "{7613312A-4C1D-439E-A30B-18298ABECF88}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -83,6 +85,10 @@ Global
 		{E1E1E495-6A82-4498-872C-47B6CED30E24}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E1E1E495-6A82-4498-872C-47B6CED30E24}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E1E1E495-6A82-4498-872C-47B6CED30E24}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7613312A-4C1D-439E-A30B-18298ABECF88}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7613312A-4C1D-439E-A30B-18298ABECF88}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7613312A-4C1D-439E-A30B-18298ABECF88}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7613312A-4C1D-439E-A30B-18298ABECF88}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
