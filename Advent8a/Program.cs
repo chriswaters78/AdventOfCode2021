@@ -45,17 +45,8 @@ namespace Advent8a
                     indexOfDigits[9] = indexes09[1];
                     indexOfDigits[0] = indexes09[0];
                 }
-                else
-                {
-                    throw new Exception("BOOM!");
-                }
 
                 var indexes235 = patterns.Select((pattern, index) => new { Pattern = pattern, Index = index }).Where(a => a.Pattern.Length == 5).Select(a => a.Index).ToList();
-                if (indexes235.Count != 3)
-                {
-                    throw new Exception("BOOM!");
-                }
-
                 indexOfDigits[3] = indexes235.Where(i => getSharedCharCount(patterns[i], patterns[indexOfDigits[1]]) == 2).Single();
                 var indexes25 = indexes235.Except(new[] { indexOfDigits[3] }).ToList();
                 if (getSharedCharCount(patterns[indexes25[0]], patterns[indexOfDigits[6]]) == 4)
