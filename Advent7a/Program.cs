@@ -18,7 +18,8 @@ namespace Advent7a
                 int cost = 0;
                 foreach (var p in positions)
                 {
-                    cost += costs[Math.Abs(p - position)];
+                    //cost += costs[Math.Abs(p - position)];
+                    cost += Math.Abs(p - position);
                 }
 
                 if (cost < bestCost)
