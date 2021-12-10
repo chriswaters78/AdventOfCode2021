@@ -1,8 +1,8 @@
 {
   "profiles": {
-    "Advent9a": {
+    "Advent10a": {
       "commandName": "Project",
-      "commandLineArgs": "example.txt"
+      "commandLineArgs": "input.txt"
     }
   }
 }
