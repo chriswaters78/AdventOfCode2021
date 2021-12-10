@@ -6,12 +6,12 @@ using System.Linq;
 
 Stopwatch watch = new Stopwatch();
 watch.Start();
-//var close = ")]}>";
-//var open = "([{<";
-//var points1 = new[] { 3, 57, 1197, 25137 };
-var pairs = new Dictionary<char, char> { { ')', '(' }, { ']', '[' }, { '}', '{' }, { '>', '<' } };
-var part1ScoreMap = new Dictionary<char, int> { { ')', 3 }, { ']', 57 }, { '}', 1197 }, { '>', 25137 } };
-var part2ScoreMap = new Dictionary<char, int> { { '(', 1 }, { '[', 2 }, { '{', 3 }, { '<', 4 } };
+var close = ")]}>";
+var open = "([{<";
+
+var closeToOpen = close.Zip(open, Tuple.Create).ToDictionary(tp => tp.Item1, tp => tp.Item2);
+var closeToPoints1 = close.Zip(new[] { 3, 57, 1197, 25137 }, Tuple.Create).ToDictionary(tp => tp.Item1, tp => tp.Item2);
+var openToPoints2 = open.Zip(Enumerable.Range(1,4), Tuple.Create).ToDictionary(tp => tp.Item1, tp => tp.Item2);
 
 var lines = File.ReadAllLines(args[0]).ToList();
 
@@ -20,17 +20,16 @@ var  part2Scores = new List<long>();
 
 foreach (var line in lines)
 {
-    var stack = new Stack<char>(line.Take(1));
-    foreach (var c in line.Skip(1))
+    var stack = new Stack<char>();
+    foreach (var c in line)
     {
-        if (pairs.ContainsKey(c))
+        if (closeToOpen.ContainsKey(c))
         {
-            if (stack.Peek() != pairs[c])
+            if (stack.Pop() != closeToOpen[c])
             {
-                part1Score += part1ScoreMap[c];
+                part1Score += closeToPoints1[c];
                 goto invalidline;
             }
-            stack.Pop();
         }
         else
         {
@@ -38,7 +37,7 @@ foreach (var line in lines)
         }
     }
 
-    part2Scores.Add(stack.Aggregate((long) 0, (score, c) => score * 5 + part2ScoreMap[c]));
+    part2Scores.Add(stack.Aggregate(0L, (score, c) => score * 5 + openToPoints2[c]));
     invalidline:;
 }
 
