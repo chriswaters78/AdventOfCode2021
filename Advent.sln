@@ -29,11 +29,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Advent6b", "Advent6b\Advent
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Advent7a", "Advent7a\Advent7a.csproj", "{E1E1E495-6A82-4498-872C-47B6CED30E24}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Advent8a", "Advent8a\Advent8a.csproj", "{7613312A-4C1D-439E-A30B-18298ABECF88}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Advent8a", "Advent8a\Advent8a.csproj", "{7613312A-4C1D-439E-A30B-18298ABECF88}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Advent9a", "Advent9a\Advent9a.csproj", "{8D322212-16B6-4FFB-B823-6A7655E752B6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Advent9a", "Advent9a\Advent9a.csproj", "{8D322212-16B6-4FFB-B823-6A7655E752B6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Advent10a", "Advent10a\Advent10a.csproj", "{EF43677B-004F-4CAB-8FD3-D28D9DDF2189}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Advent10a", "Advent10a\Advent10a.csproj", "{EF43677B-004F-4CAB-8FD3-D28D9DDF2189}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
