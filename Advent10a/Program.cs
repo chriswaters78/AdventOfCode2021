@@ -1,96 +1,48 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 
+Stopwatch watch = new Stopwatch();
+watch.Start();
+//var close = ")]}>";
+//var open = "([{<";
+//var points1 = new[] { 3, 57, 1197, 25137 };
+var pairs = new Dictionary<char, char> { { ')', '(' }, { ']', '[' }, { '}', '{' }, { '>', '<' } };
+var part1ScoreMap = new Dictionary<char, int> { { ')', 3 }, { ']', 57 }, { '}', 1197 }, { '>', 25137 } };
+var part2ScoreMap = new Dictionary<char, int> { { '(', 1 }, { '[', 2 }, { '{', 3 }, { '<', 4 } };
 
-namespace Advent10a
+var lines = File.ReadAllLines(args[0]).ToList();
+
+long part1Score = 0;
+var  part2Scores = new List<long>();
+
+foreach (var line in lines)
 {
-    class Program
+    var stack = new Stack<char>(line.Take(1));
+    foreach (var c in line.Skip(1))
     {
-        static void Main(string[] args)
+        if (pairs.ContainsKey(c))
         {
-            var lines = File.ReadAllLines(args[0]).ToList();
-
-            long part1Score = 0;
-            List<long> part2Scores = new List<long>();
-            foreach (var line in lines)
+            if (stack.Peek() != pairs[c])
             {
-                Stack<char> stack = new Stack<char>(line.Take(1));
-                foreach (var c in line.Skip(1))
-                {
-                    switch (c)
-                    {
-                        case ')':
-                            if (stack.Peek() != '(')
-                            {
-                                part1Score += 3;
-                                goto skip;
-                            }
-                            stack.Pop();
-                            break;
-                        case ']':
-                            if (stack.Peek() != '[')
-                            {
-                                part1Score += 57;
-                                goto skip;
-                            }
-                            stack.Pop();
-                            break;
-                        case '}':
-                            if (stack.Peek() != '{')
-                            {
-                                part1Score += 1197;
-                                goto skip;
-                            }
-                            stack.Pop();
-                            break;
-                        case '>':
-                            if (stack.Peek() != '<')
-                            {
-                                part1Score += 25137;
-                                goto skip;
-                            }
-                            stack.Pop();
-                            break;
-                        default:
-                            stack.Push(c);
-                            break;
-                    }
-                }
-
-                part2Scores.Add(getScore(stack));
-
-            skip:;
+                part1Score += part1ScoreMap[c];
+                goto invalidline;
             }
-
-            var part2Score = part2Scores.OrderBy(i => i).Skip(part2Scores.Count / 2).First();
+            stack.Pop();
         }
-        private static long getScore(Stack<char> stack)
+        else
         {
-            long score = 0;
-            while (stack.Count != 0)
-            {
-                score *= 5;
-                switch (stack.Pop())
-                {
-                    case '(':
-                        score += 1;
-                        break;
-                    case '[':
-                        score += 2;
-                        break;
-                    case '{':
-                        score += 3;
-                        break;
-                    case '<':
-                        score += 4;
-                        break;
-                }
-            }
-
-            return score;
+            stack.Push(c);
         }
     }
 
+    part2Scores.Add(stack.Aggregate((long) 0, (score, c) => score * 5 + part2ScoreMap[c]));
+    invalidline:;
 }
+
+watch.Stop();
+Console.WriteLine($"Part 1: {part1Score}");
+Console.WriteLine($"Part 2: {part2Scores.OrderBy(i => i).Skip(part2Scores.Count / 2).First()}");
+Console.WriteLine($"Elapsed Time: {watch.ElapsedMilliseconds}ms");
