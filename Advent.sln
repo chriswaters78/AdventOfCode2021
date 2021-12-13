@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.31829.152
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{7A866ABC-7A8F-477E-992F-BA62BEAE43E0}"
 EndProject
@@ -34,6 +34,12 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Advent9a", "Advent9a\Advent9a.csproj", "{8D322212-16B6-4FFB-B823-6A7655E752B6}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Advent10a", "Advent10a\Advent10a.csproj", "{EF43677B-004F-4CAB-8FD3-D28D9DDF2189}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Advent11a", "Advent11a\Advent11a.csproj", "{E1CBB656-A81D-43C6-9870-51DAE37420AE}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Advent12a", "Advent12a\Advent12a.csproj", "{D7834633-A187-4499-A0CC-5DF42BCA553D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Advent13a", "Advent13a\Advent13a.csproj", "{57423EA4-C780-4A33-8ECB-9DD9CA6DE427}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -101,6 +107,18 @@ Global
 		{EF43677B-004F-4CAB-8FD3-D28D9DDF2189}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EF43677B-004F-4CAB-8FD3-D28D9DDF2189}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EF43677B-004F-4CAB-8FD3-D28D9DDF2189}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E1CBB656-A81D-43C6-9870-51DAE37420AE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E1CBB656-A81D-43C6-9870-51DAE37420AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E1CBB656-A81D-43C6-9870-51DAE37420AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E1CBB656-A81D-43C6-9870-51DAE37420AE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D7834633-A187-4499-A0CC-5DF42BCA553D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D7834633-A187-4499-A0CC-5DF42BCA553D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D7834633-A187-4499-A0CC-5DF42BCA553D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D7834633-A187-4499-A0CC-5DF42BCA553D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57423EA4-C780-4A33-8ECB-9DD9CA6DE427}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57423EA4-C780-4A33-8ECB-9DD9CA6DE427}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57423EA4-C780-4A33-8ECB-9DD9CA6DE427}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57423EA4-C780-4A33-8ECB-9DD9CA6DE427}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
