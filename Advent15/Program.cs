@@ -41,23 +41,39 @@ for (int row = 0; row < yL * 5; row++)
 
 costs[0][0] = 0;
 
-Queue<(int, int)> queue = new Queue<(int, int)>();
-queue.Enqueue((1, 0));
-queue.Enqueue((0, 1));
+//Queue<(int, int)> queue = new Queue<(int, int)>();
+PriorityQueue<(int, int), int> queue = new PriorityQueue<(int, int), int>();
+queue.Enqueue((1, 0), 0);
+queue.Enqueue((0, 1), 0);
 
-while (queue.Any())
+while (queue.Count > 0)
 {
     var (x,y) = queue.Dequeue();
-    var neighbours = new[] { (x - 1, y), (x + 1, y), (x, y - 1), (x, y + 1) }.Where(tp => tp.Item1 >= 0 && tp.Item1 < xL * 5 && tp.Item2 >= 0 && tp.Item2 < yL * 5).ToArray();
+    var neighbours = new[] { (x - 1, y), (x + 1, y), (x, y - 1), (x, y + 1) };//.Where(tp => tp.Item1 >= 0 && tp.Item1 < xL * 5 && tp.Item2 >= 0 && tp.Item2 < yL * 5);
 
-    var best = neighbours.Where(tp => costs[tp.Item1][tp.Item2] != int.MaxValue).Select(tp => costs[tp.Item1][tp.Item2] + riskLevels[x][y]).Min();
+    var best = int.MaxValue;
+    foreach ((int p, int q) in neighbours)
+    {
+        if (p >= 0 && p < xL * 5 && q >= 0 && q < yL * 5 && costs[p][q] != int.MaxValue)
+        {
+            if (costs[p][q] + riskLevels[x][y] < best)
+            {
+                best = costs[p][q] + riskLevels[x][y];
+            }
+        }
+    }
+
+    //var best = neighbours.Where(tp => costs[tp.Item1][tp.Item2] != int.MaxValue).Select(tp => costs[tp.Item1][tp.Item2] + riskLevels[x][y]).Min();
     if (best < costs[x][y])
     {
         costs[x][y] = best;
         //its a new possible best path to this node, so carry on searching
-        foreach (var neighbour in neighbours)
+        foreach ((int p, int q) in neighbours)
         {
-            queue.Enqueue(neighbour);
+            if (p >= 0 && p < xL * 5 && q >= 0 && q < yL * 5)
+            {
+                queue.Enqueue((p,q), best);
+            }
         }
     }
 }
