@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 
 namespace Advent16
@@ -17,10 +18,14 @@ namespace Advent16
             watch.Start();
 
             var bits = File.ReadAllText(args[0])
-                    .Aggregate(new StringBuilder(), (sb, ch) => { sb.Append(Convert.ToString(Convert.ToInt32(ch.ToString(), 16), 2).PadLeft(4, '0')); return sb; }, sb => sb.ToString())
+                    .Aggregate(new StringBuilder(), (sb, ch) => { 
+                            sb.Append(Convert.ToString(Convert.ToInt32(ch.ToString(), 16), 2).PadLeft(4, '0')); 
+                            return sb; 
+                        }, 
+                        sb => sb.ToString())
                     .Select(ch => ch == '1' ? true : false).ToArray();
 
-            (_, long answer1, long answer2) = getNextPacket(bits[0..]);
+            (_, long answer1, long answer2) = getNextPacket(bits);
 
             watch.Stop();
             Console.WriteLine($"Part 1: {answer1}");
@@ -30,7 +35,6 @@ namespace Advent16
 
         private static (int bitsConsumed, long versionTotal, long value) getNextPacket(bool[] bits)
         {
-            long value;
             int cps = 0;
             long version = getIntFromArray(bits[cps..(cps + 3)]);            
             cps += 3;
@@ -51,21 +55,22 @@ namespace Advent16
                 }
                 while (bits[cps + totalLiteralBits - 5]);
 
-                value = getIntFromArray(literal.ToArray());
+                long value = getIntFromArray(literal.ToArray());
                 if ((totalLiteralBits / 5 * 4) % 4 != 0)
                 {
                     totalLiteralBits += 4 - ((totalLiteralBits / 5 * 4) % 4);
                 }
 
                 cps += totalLiteralBits;
+
+                return (cps, version, value);
             }
-            else
+            List<(int bitsConsumed, long versionTotal, long value)> packets = new List<(int, long, long)>();
+            cps++;
+            //operator
+            switch (bits[cps-1])
             {
-                List<(int bitsConsumed, long versionTotal, long value)> packets = new List<(int, long, long)>();
-                cps++;
-                //operator
-                if (bits[cps-1])
-                {
+                case true:
                     //length type 1, number of sub packets
                     long numberSubPackets = getIntFromArray(bits[cps..(cps + 11)]);
                     cps += 11;
@@ -76,9 +81,8 @@ namespace Advent16
                         packets.Add(packet);
                         cps += packet.bitsConsumed;
                     }
-                }
-                else
-                {
+                    break;
+                case false:
                     long packetLength = getIntFromArray(bits[cps..(cps + 15)]);
                     cps += 15;
                     int totalSubPLength = 0;
@@ -89,23 +93,20 @@ namespace Advent16
                         totalSubPLength += packet.bitsConsumed;
                     }
                     cps += totalSubPLength;
-                }
-
-                version += packets.Sum(pk => pk.versionTotal);
-
-                value = type switch
-                {
-                    0 => packets.Select(pk => pk.value).Sum(),
-                    1 => packets.Select(pk => pk.value).Aggregate(1L, (ac, v) => ac * v),
-                    2 => value = packets.Select(pk => pk.value).Min(),
-                    3 => packets.Select(pk => pk.value).Max(),
-                    5 => packets.First().value > packets.Skip(1).First().value ? 1 : 0,
-                    6 => packets.First().value < packets.Skip(1).First().value ? 1 : 0,
-                    _ => packets.First().value == packets.Skip(1).First().value ? 1 : 0
-                };
+                    break;
             }
 
-            return (cps, version, value);
+            version += packets.Sum(pk => pk.versionTotal);
+            return (cps, version, type switch
+            {
+                0 => packets.Select(pk => pk.value).Sum(),
+                1 => packets.Select(pk => pk.value).Aggregate(1L, (ac, v) => ac * v),
+                2 => packets.Select(pk => pk.value).Min(),
+                3 => packets.Select(pk => pk.value).Max(),
+                5 => packets.First().value > packets.Skip(1).First().value ? 1 : 0,
+                6 => packets.First().value < packets.Skip(1).First().value ? 1 : 0,
+                _ => packets.First().value == packets.Skip(1).First().value ? 1 : 0
+            });
         }
 
         private static long getIntFromArray(bool[] bits)
@@ -115,10 +116,9 @@ namespace Advent16
             {
                 if (bits[i])
                 {
-                    result += Convert.ToInt64(Math.Pow(2, bits.Length - 1 - i));
+                    result |= 1L << bits.Length - 1 - i;
                 }
             }
-
             return result;
         }
     }
