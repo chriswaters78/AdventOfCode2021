@@ -7,6 +7,9 @@ using System.Linq;
 using System.Numerics;
 using System.Text;
 
+Stopwatch watch = new Stopwatch();
+watch.Start();
+
 int x1 = 85;
 int x2 = 145;
 
@@ -51,5 +54,7 @@ for (int vx = minvx; vx <= maxvx; vx++)
     }
 }
 
+watch.Stop();
 Console.WriteLine($"Part1: {answer1}");
 Console.WriteLine($"Part2: {everyV.Count}");
+Console.WriteLine($"Took: {watch.ElapsedMilliseconds}ms");
