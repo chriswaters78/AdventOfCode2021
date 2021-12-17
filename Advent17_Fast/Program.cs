@@ -12,10 +12,12 @@ watch.Start();
 
 //int x1 = 20; int x2 = 30;
 //int y1 = -10; int y2 = -5;
-int x1 = 85; int x2 = 145;
-int y1 = -163; int y2 = -108;
+//int x1 = 85; int x2 = 145;
+//int y1 = -163; int y2 = -108;
 //int x1 = 352; int x2 = 377;
 //int y1 = -49; int y2 = -30;
+int x1 = 10000; int x2 = 11000;
+int y1 = -5000; int y2 = -4900;
 
 //assume target always +'ve x and -'ve y
 //bounds are found by the fact that we will overshoot the target in 1 step for certain x and y values
@@ -24,6 +26,8 @@ int y1 = -163; int y2 = -108;
 (int minvx, int maxvx) = (0, x2);
 (int minvy, int maxvy) = (y1, Math.Abs(y1));
 
+//solve x and y independently, storing solutions by the step count
+//start with y as that gives an upper bound on the number of steps we need to check x for
 Dictionary<int, List<int>> validStepsForY = new Dictionary<int, List<int>>();
 for (int vy = minvy; vy <= maxvy; vy++)
 {
@@ -68,6 +72,7 @@ for (int vx = minvx; vx <= maxvx; vx++)
     }
 }
 
+//not loop through the steps and generate all valid solutions
 HashSet<(int, int)> solutions = new HashSet<(int, int)>();
 for (int step = 0; step <= maxYStep; step++)
 {
@@ -82,7 +87,6 @@ for (int step = 0; step <= maxYStep; step++)
         }
     }
 }
-
 
 var maxYV = solutions.Select(kvp => kvp.Item2).Max();
 var answer1 = maxYV * (maxYV + 1) / 2;
