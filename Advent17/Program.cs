@@ -10,10 +10,12 @@ using System.Text;
 Stopwatch watch = new Stopwatch();
 watch.Start();
 
-int x1 = 85; int x2 = 145;
-int y1 = -163; int y2 = -108;
+//int x1 = 85; int x2 = 145;
+//int y1 = -163; int y2 = -108;
 //int x1 = 352; int x2 = 377;
 //int y1 = -49; int y2 = -30;
+int x1 = 10000; int x2 = 11000;
+int y1 = -5000; int y2 = -4900;
 
 //assume target always +'ve x and -'ve y
 //bounds are found by the fact that we will overshoot the target in 1 step for certain x and y values
