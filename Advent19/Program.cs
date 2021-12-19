@@ -1,26 +1,37 @@
-﻿var lines = File.ReadAllLines(args[0]).Where(line => !line.StartsWith("--- scanner"));
-var beacons = new List<List<(int x, int y, int z)>>();
-var curr = new List<(int x, int y, int z)>();
-beacons.Add(curr);
+﻿using System.Diagnostics;
 
+Stopwatch watch = new Stopwatch();
+watch.Start();
+
+var lines = File.ReadAllLines(args[0]).Where(line => !line.StartsWith("--- scanner"));
+var beacons = new List<List<(int x, int y, int z)>>();
 List<int[][]> ALLROTS = allRots();
 
-foreach (var line in lines)
 {
-    if (!String.IsNullOrEmpty(line))
+    var curr = new List<(int x, int y, int z)>();
+    beacons.Add(curr);
+
+
+    foreach (var line in lines)
     {
-        var split = line.Split(',');
-        curr.Add((int.Parse(split[0]), int.Parse(split[1]), int.Parse(split[2])));
-    }
-    else
-    {
-        
-        curr = new List<(int, int, int)>();
-        beacons.Add(curr);
+        if (!String.IsNullOrEmpty(line))
+        {
+            var split = line.Split(',');
+            curr.Add((int.Parse(split[0]), int.Parse(split[1]), int.Parse(split[2])));
+        }
+        else
+        {
+
+            curr = new List<(int, int, int)>();
+            beacons.Add(curr);
+        }
     }
 }
 
 int maxCount = 0;
+var results = Enumerable.Range(0, beacons.Count)
+                .ToDictionary(s1 => s1, tp => new Dictionary<int, (int[][] rot, (int dx, int dy, int dz))>());
+
 for  (var s1 = 0; s1 < beacons.Count; s1++)
 {
     for (var s2 = 0; s2 < beacons.Count; s2++)
@@ -48,15 +59,90 @@ for  (var s1 = 0; s1 < beacons.Count; s1++)
                     }
                     if (count >= 12)
                     {
-                        Console.WriteLine($"Scanner {s1} has {count} matches to scanner {s2} when using delta {dx},{dy},{dz}");
+                        results[s1].Add(s2, (rot, (dx, dy, dz)));
+                        
+                        //Console.WriteLine($"Scanner {s1} has {count} matches to scanner {s2} when using delta {dx},{dy},{dz}");
+                        goto nextRot;
                     }
                 }
             }
+            nextRot:;
         }
     }
 }
 
-Console.WriteLine("");
+//need to do a dfs on the results to map then all to x coords
+//then get a final count of distinct points
+
+Dictionary<int, Dictionary<int, List<int>>> mappingsToX = new Dictionary<int, Dictionary<int, List<int>>>();
+Dictionary<(int, int), int> deltas = new Dictionary<(int, int), int>();
+HashSet<(int, int, int)> allPoints = new HashSet<(int, int, int)>(beacons[0]);
+
+for (int s1 = 0; s1 < beacons.Count; s1++)
+{
+    Dictionary<int, List<int>> mappingToX = new Dictionary<int, List<int>>();
+    mappingsToX[s1] = mappingToX;
+    HashSet<int> seen = new HashSet<int>();
+    Stack<(int, List<int>)> stack = new Stack<(int, List<int>)>();
+    stack.Push((s1, new List<int>()));
+
+    while (stack.Count > 0)
+    {
+        (var curr, var currPath) = stack.Pop();
+
+        if (seen.Contains(curr))
+        {
+            continue;
+        }
+        seen.Add(curr);
+        currPath = new[] { curr }.Concat(currPath).ToList();
+        mappingToX.Add(curr, currPath);
+
+        foreach (var map in results[curr])
+        {
+            stack.Push((map.Key, currPath));
+        }
+    }
+
+
+    for (int s2 = 0; s2 < beacons.Count; s2++)
+    {
+        if (s2 == s1)
+        {
+            continue;
+        }
+        foreach (var p in beacons[s2])
+        {
+            var c = p;
+            var d = (0,0,0);
+            for (int i = 0; i < mappingsToX[s1][s2].Count - 1; i++)
+            {
+                var mapFrom = mappingsToX[s1][s2][i];
+                var mapTo = mappingsToX[s1][s2][i + 1];
+
+                (var rot, var delta) = results[mapFrom][mapTo];
+                c = rotatePoint(rot, c);
+                c = (c.x + delta.dx, c.y + delta.dy, c.z + delta.dz);
+                d = rotatePoint(rot, d);
+                d = (d.Item1 + delta.dx, d.Item2 + delta.dy, d.Item3 + delta.dz);
+            }
+            if (s1 == 0)
+            {
+                allPoints.Add(c);
+            }
+
+
+            deltas[(s1, s2)] = Math.Abs(d.Item1) + Math.Abs(d.Item2) + Math.Abs(d.Item3);
+        }
+
+    }
+
+}
+
+watch.Stop();
+Console.WriteLine($"Part1: {allPoints.Count}");
+Console.WriteLine($"Part2: {deltas.Values.Max()}");
+Console.WriteLine($"Elapsed: {watch.ElapsedMilliseconds}ms");
 
 
 
@@ -128,7 +214,7 @@ List<int[][]> allRots() {
             a[0][2] * b.x + a[1][2] * b.y + a[2][2] * b.z );
 }
 
-int[][] multiply3By3(int[][] a, int[][]b)
+int[][] multiply3By3(int[][] a, int[][] b)
 {
     int[][] result = new int[3][]
     {
