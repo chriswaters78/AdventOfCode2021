@@ -11,7 +11,6 @@ List<int[][]> ALLROTS = allRots();
     var curr = new List<(int x, int y, int z)>();
     beacons.Add(curr);
 
-
     foreach (var line in lines)
     {
         if (!String.IsNullOrEmpty(line))
@@ -21,7 +20,6 @@ List<int[][]> ALLROTS = allRots();
         }
         else
         {
-
             curr = new List<(int, int, int)>();
             beacons.Add(curr);
         }
@@ -29,8 +27,10 @@ List<int[][]> ALLROTS = allRots();
 }
 
 int maxCount = 0;
-var results = Enumerable.Range(0, beacons.Count)
-                .ToDictionary(s1 => s1, tp => new Dictionary<int, (int[][] rot, (int dx, int dy, int dz))>());
+
+var results = Enumerable.Range(0, beacons.Count).ToDictionary(
+                    s1 => s1, 
+                    tp => new Dictionary<int, (int[][] rot, (int dx, int dy, int dz))>());
 
 for  (var s1 = 0; s1 < beacons.Count; s1++)
 {
@@ -71,11 +71,12 @@ for  (var s1 = 0; s1 < beacons.Count; s1++)
     }
 }
 
-//need to do a dfs on the results to map then all to x coords
-//then get a final count of distinct points
+//need to do a dfs on the results to find the sequence of transforms that will map them all to scanner 0 coords
+var mappingsToX = new Dictionary<int, Dictionary<int, List<int>>>();
+//(s1,s2) => the distance from s1 to s2
+ var deltas = new Dictionary<(int, int), int>();
 
-Dictionary<int, Dictionary<int, List<int>>> mappingsToX = new Dictionary<int, Dictionary<int, List<int>>>();
-Dictionary<(int, int), int> deltas = new Dictionary<(int, int), int>();
+//all points mapped to scanner 0 coordinates
 HashSet<(int, int, int)> allPoints = new HashSet<(int, int, int)>(beacons[0]);
 
 for (int s1 = 0; s1 < beacons.Count; s1++)
@@ -148,67 +149,58 @@ Console.WriteLine($"Elapsed: {watch.ElapsedMilliseconds}ms");
 
 List<int[][]> allRots() {
     var aa = new List<int[][]>() {
-    new int[3][]    {
-        new int[] { 1, 0, 0 },
-        new int[] { 0, 1, 0 },
-        new int[3] { 0, 0, 1 }},
-    new int[3][]    {
-        new int[] { 0, 1, 0 },
-        new int[] { 0, 0, 1 },
-        new int[3] { 1, 0, 0 }},
-    new int[3][]    {
-        new int[] { 0, 0, 1 },
-        new int[] { 1, 0, 0 },
-        new int[3] { 0, 1, 0 }},
+        new int[][] {
+            new int[] { 1, 0, 0 },
+            new int[] { 0, 1, 0 },
+            new int[] { 0, 0, 1 }},
+        new int[][] {
+            new int[] { 0, 1, 0 },
+            new int[] { 0, 0, 1 },
+            new int[] { 1, 0, 0 }},
+        new int[][] {
+            new int[] { 0, 0, 1 },
+            new int[] { 1, 0, 0 },
+            new int[] { 0, 1, 0 }},
     };
 
-        var bb = new List<int[][]>() {
-        new int[3][]    {
+    var bb = new List<int[][]>() {
+        new int[][] {
             new int[] { 1, 0, 0 },
             new int[] { 0, 1, 0 },
-            new int[3] { 0, 0, 1 }},
-        new int[3][]    {
+            new int[] { 0, 0, 1 }},
+        new int[][]    {
             new int[] { -1, 0, 0 },
             new int[] { 0, -1, 0 },
-            new int[3] { 0, 0, 1 }},
-        new int[3][]    {
+            new int[] { 0, 0, 1 }},
+        new int[][] {
             new int[] { -1, 0, 0 },
             new int[] { 0, 1, 0 },
-            new int[3] { 0, 0, -1 }},
-        new int[3][]    {
+            new int[] { 0, 0, -1 }},
+        new int[][] {
             new int[] { 1, 0, 0 },
             new int[] { 0, -1, 0 },
-            new int[3] { 0, 0, -1 }},
+            new int[] { 0, 0, -1 }},
     };
 
-        var cc = new List<int[][]>() {
+    var cc = new List<int[][]>() {
         new int[3][]    {
             new int[] { 1, 0, 0 },
             new int[] { 0, 1, 0 },
-            new int[3] { 0, 0, 1 }},
+            new int[] { 0, 0, 1 }},
         new int[3][]    {
             new int[] { 0, 0, -1 },
             new int[] { 0, -1, 0 },
-            new int[3] { -1, 0, 0 }},
+            new int[] { -1, 0, 0 }},
     };
 
-    var results = new List<int[][]>();
-    foreach (var a in aa)
-    {
-        foreach (var b in bb)
-        {
-            foreach (var c in cc)
-            {
-                results.Add(multiply3By3(a, multiply3By3(b, c)));
-            }
-        }
-    }
-    return results;
+    return (from a in aa
+           from b in bb
+           from c in cc
+           select multiply3By3(a, multiply3By3(b, c))).ToList();
 }
 
 (int x, int y, int z) rotatePoint(int[][] a, (int x,int y,int z) b)
 {
-
     return (a[0][0] * b.x + a[1][0] * b.y + a[2][0] * b.z,
             a[0][1] * b.x + a[1][1] * b.y + a[2][1] * b.z,
             a[0][2] * b.x + a[1][2] * b.y + a[2][2] * b.z );
