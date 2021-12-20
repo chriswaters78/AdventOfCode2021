@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Text;
 
-const int expandBy = 10;
+const int expandBy = 100;
 
 var lines = File.ReadAllLines(args[0]);
 var pattern = new BitArray(lines[0].Select(ch => ch == '#').ToArray());
@@ -25,7 +25,7 @@ for (int r = -expandBy; r < grid.Length + expandBy; r++)
 
 print(points);
 
-for (int step = 0; step < 2; step++)
+for (int step = 0; step < 50; step++)
 {
     var newPoints = new Dictionary<(int, int), bool>();
     for (int r = -expandBy; r < grid.Length + expandBy; r++)
@@ -56,9 +56,13 @@ for (int step = 0; step < 2; step++)
                 }
                 else
                 {
-                    if (step % 2 == 1)
+                    //since we have expanded grid, should be far enough away to be all positive
+                    if (args[0] == "input.txt")
                     {
-                        pi += 1 << s;
+                        if (step % 2 == 1)
+                        {
+                            pi += 1 << s;
+                        }
                     }
                 }
             }
