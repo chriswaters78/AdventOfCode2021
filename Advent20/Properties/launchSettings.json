@@ -2,7 +2,7 @@
   "profiles": {
     "Advent20": {
       "commandName": "Project",
-      "commandLineArgs": "example.txt"
+      "commandLineArgs": "example.txt 2"
     }
   }
 }

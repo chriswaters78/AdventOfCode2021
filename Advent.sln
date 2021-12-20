@@ -59,6 +59,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Advent19", "Advent19\Advent
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Advent20", "Advent20\Advent20.csproj", "{81874EF9-2088-46E4-805A-69B745A7C4DC}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GetLeaderboard", "GetLeaderboard\GetLeaderboard.csproj", "{EA29D9C0-0825-48BD-899F-0E9891688C51}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -173,6 +175,10 @@ Global
 		{81874EF9-2088-46E4-805A-69B745A7C4DC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{81874EF9-2088-46E4-805A-69B745A7C4DC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{81874EF9-2088-46E4-805A-69B745A7C4DC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EA29D9C0-0825-48BD-899F-0E9891688C51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EA29D9C0-0825-48BD-899F-0E9891688C51}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EA29D9C0-0825-48BD-899F-0E9891688C51}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EA29D9C0-0825-48BD-899F-0E9891688C51}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

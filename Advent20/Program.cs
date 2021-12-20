@@ -1,95 +1,59 @@
 ﻿using System.Collections;
+using System.Diagnostics;
 using System.Text;
 
-const int expandBy = 100;
+Stopwatch watch = new Stopwatch();
+watch.Start();
 
-var lines = File.ReadAllLines(args[0]);
-var pattern = new BitArray(lines[0].Select(ch => ch == '#').ToArray());
+int STEPS = int.Parse(args[1]);
+var pattern = new BitArray(File.ReadAllLines(args[0]).First().Select(ch => ch == '#').ToArray());
+var grid = File.ReadAllLines(args[0]).Skip(2).ToArray();
 
-var grid = lines.Skip(2).Select(line => line.Select(ch => ch == '#').ToArray()).ToArray();
-Dictionary<(int, int), bool> points = new Dictionary<(int, int), bool>();
-for (int r = -expandBy; r < grid.Length + expandBy; r++)
-{
-    for (int c = -expandBy; c < grid.First().Length + expandBy; c++)
-    {
-        if (r >= 0 && r < grid.Length && c >= 0 && c < grid.First().Length)
-        {
-            points.Add((r, c), grid[r][c]);
-        }
-        else
-        {
-            points.Add((r, c), false);
-        }
-    }
-}
+var points = (from r in Enumerable.Range(-1, grid.Length + 2)
+              from c in Enumerable.Range(-1, grid.First().Length + 2)
+              select ((r, c), r >= 0 && r < grid.Length && c >= 0 && c < grid.First().Length ? grid[r][c] == '#' : false))
+              .ToDictionary(tp => tp.Item1, tp => tp.Item2);
 
 print(points);
+(var maxr, var maxc) = (grid.Length + 2, grid.First().Length + 2);
 
-for (int step = 0; step < 50; step++)
+for (int step = 1; step <= STEPS; step++)
 {
     var newPoints = new Dictionary<(int, int), bool>();
-    for (int r = -expandBy; r < grid.Length + expandBy; r++)
+    for (int r = -step; r < maxr; r++)
     {
-        for (int c = -expandBy; c < grid.First().Length + expandBy; c++)
+        for (int c = -step; c < maxc; c++)
         {
             int pi = 0;
-            var indexes = new[] {
-                ((r-1,c-1),8),
-                ((r-1,c),7),
-                ((r-1,c+1),6),
-                ((r,c-1),5),
-                ((r,c),4),
-                ((r,c+1),3),
-                ((r+1,c-1),2),
-                ((r+1,c),1),
-                ((r+1,c+1),0),
-            };
-
-            foreach (var (index, s) in indexes)
+            for (int ro = -1; ro <= 1; ro++)
             {
-                if (points.ContainsKey(index) )
+                for (int co = -1; co <= 1; co++)
                 {
-                    if (points[index])
-                    {
-                        pi += 1 << s;
-                    }
-                }
-                else
-                {
-                    //since we have expanded grid, should be far enough away to be all positive
-                    if (args[0] == "input.txt")
-                    {
-                        if (step % 2 == 1)
-                        {
-                            pi += 1 << s;
-                        }
-                    }
+                    var s = (1 - ro) * 3 + (1 - co);
+                    var p = (r + ro, c + co);
+                    pi += points.ContainsKey(p) ?
+                            points[p] ? 1 << s : 0
+                            : step % 2 == 0 && pattern[0] && !pattern[511] ? 1 << s : 0;
                 }
             }
-
 
             newPoints.Add((r, c), pattern[pi]);
         }
     }
-
+    (maxr, maxc) = (++maxr, ++maxc);
     points = newPoints;
-    print(points);
 }
-var answer1 = points.Where(kvp => kvp.Value).Count();
 
-Console.WriteLine($"Part1: {answer1}");
+watch.Stop();
+print(points);
 
-var falsePos = points.Where(kvp => kvp.Key.Item1 == -expandBy && kvp.Value).Count();
-Console.WriteLine($"False Positives: {falsePos}");
-Console.WriteLine($"Real answer: {answer1 - falsePos}");
-
+Console.WriteLine($"Answer for step {STEPS}: {points.Where(kvp => kvp.Value).Count()}");
+Console.WriteLine($"Elapsed time: {watch.ElapsedMilliseconds}ms");
 
 void print(Dictionary<(int,int), bool> points)
 {
-    var minC = points.Keys.Select(tp => tp.Item2).Min();
-    var maxC = points.Keys.Select(tp => tp.Item2).Max();
-    var minR = points.Keys.Select(tp => tp.Item1).Min();
-    var maxR = points.Keys.Select(tp => tp.Item1).Max();
+    (var minC, var maxC) = (points.Keys.Min(tp => tp.Item2), points.Keys.Max(tp => tp.Item2));
+    (var minR, var maxR) = (points.Keys.Min(tp => tp.Item1), points.Keys.Max(tp => tp.Item1));
     StringBuilder builder = new StringBuilder();
     for (int c = minC; c < maxC; c++)
     {
