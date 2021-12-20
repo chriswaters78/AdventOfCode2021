@@ -26,8 +26,6 @@ List<int[][]> ALLROTS = allRots();
     }
 }
 
-int maxCount = 0;
-
 var results = Enumerable.Range(0, beacons.Count).ToDictionary(
                     s1 => s1, 
                     tp => new Dictionary<int, (int[][] rot, (int dx, int dy, int dz))>());
@@ -39,7 +37,7 @@ for  (var s1 = 0; s1 < beacons.Count; s1++)
         if (s1 == s2) continue;
 
         foreach (var rot in ALLROTS)
-        {
+        {            
             foreach (var p1 in beacons[s1].Select(p => rotatePoint(rot, p)))
             {
                 foreach (var p2 in beacons[s2])
@@ -53,10 +51,6 @@ for  (var s1 = 0; s1 < beacons.Count; s1++)
                     var mapped = beacons[s1].Select(p => rotatePoint(rot, p)).Select(p => (p.x += dx, p.y += dy, p.z += dz));
 
                     var count = mapped.Intersect(beacons[s2]).Count();
-                    if (count > maxCount)
-                    {
-                        maxCount = count;
-                    }
                     if (count >= 12)
                     {
                         results[s1].Add(s2, (rot, (dx, dy, dz)));
@@ -71,6 +65,7 @@ for  (var s1 = 0; s1 < beacons.Count; s1++)
     }
 }
 
+Console.WriteLine($"Calculated all intersects in {watch.ElapsedMilliseconds}ms");
 //need to do a dfs on the results to find the sequence of transforms that will map them all to scanner 0 coords
 var mappingsToX = new Dictionary<int, Dictionary<int, List<int>>>();
 //(s1,s2) => the distance from s1 to s2
@@ -135,9 +130,7 @@ for (int s1 = 0; s1 < beacons.Count; s1++)
 
             deltas[(s1, s2)] = Math.Abs(d.Item1) + Math.Abs(d.Item2) + Math.Abs(d.Item3);
         }
-
     }
-
 }
 
 watch.Stop();
