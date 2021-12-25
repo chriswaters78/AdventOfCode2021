@@ -1,15 +1,17 @@
-﻿using System.Text;
+﻿using System.Diagnostics;
+using System.Text;
+
+Stopwatch watch = new Stopwatch();
+watch.Start();
 
 var steps = File.ReadAllLines(args[0]).ToArray();
 var ps = new (int, int, int)[14];
-
 for (int i = 0; i < 14; i++)
 {
     ps[i] = (int.Parse(new String(steps[4 + i * 18]).Skip(6).ToArray()), int.Parse(new String(steps[5 + i * 18].Skip(6).ToArray())), int.Parse(new String(steps[15 + i * 18].Skip(6).ToArray())));
 }
 
-long? lowest = long.MaxValue;
-long? highest = long.MinValue;
+(long? lowest, long? highest) = (long.MaxValue, long.MinValue);
 for (long i = 10000000000000; i <= 99999999999999; i++)
 {
     var digits = i.ToString().Select(ch => int.Parse(ch.ToString())).ToArray();
@@ -19,7 +21,6 @@ for (long i = 10000000000000; i <= 99999999999999; i++)
     foreach ((int p1, int p2, int p3) in ps)
     {
         var w = digits[step];
-
         var test = (z % 26) + p2 == w;
         if (w != 0 && p1 == 26 && test)
         {
@@ -31,9 +32,7 @@ for (long i = 10000000000000; i <= 99999999999999; i++)
         }
         else
         {
-            //the string to this point is invalid
-            //so if we are on   234560000
-            //increment to      234569999
+            //e.g. 234560000 to 234569999
             i += (long) Math.Pow(10, 13 - step);
             i--;
             break;
@@ -43,17 +42,9 @@ for (long i = 10000000000000; i <= 99999999999999; i++)
 
     if (z == 0)
     {
-        if (i < lowest)
-        {
-            lowest = i;
-        }
-        if (i > highest)
-        {
-            highest = i;
-        }
+        (lowest, highest) = (i < lowest ? i : lowest, i > highest ? i : highest);
     }
 }
-
 
 Console.WriteLine($"Part1: {highest}");
 Console.WriteLine($"Part2: {lowest}");
