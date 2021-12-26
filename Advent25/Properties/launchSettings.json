@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Advent25": {
+      "commandName": "Project",
+      "commandLineArgs": "example.txt"
+    }
+  }
+}
