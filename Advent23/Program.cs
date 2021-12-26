@@ -1,12 +1,15 @@
 ﻿//var states = new Dictionary<(byte a1, byte a2, byte b1, byte b2, byte c1, byte c2, byte d1, byte d2), int>();
 //states.Add(c, 0);
 
+using System.Diagnostics;
 using System.Text;
 
 class Program
 {
     static void Main(string[] args)
     {
+        Stopwatch watch = new Stopwatch();
+        watch.Start();
         var priorityQueue = new PriorityQueue<(byte a1, byte a2, byte b1, byte b2, byte c1, byte c2, byte d1, byte d2), int>();
 
         Dictionary<(byte a1, byte a2, byte b1, byte b2, byte c1, byte c2, byte d1, byte d2), int> best = new Dictionary<(byte a1, byte a2, byte b1, byte b2, byte c1, byte c2, byte d1, byte d2), int>();
@@ -20,7 +23,7 @@ class Program
         //priorityQueue.Enqueue((13, 19, 12, 16, 14, 17, 15, 18), 0);
         priorityQueue.Enqueue((16, 19, 17, 18, 12, 14, 13, 15), 0);
 
-        List<int> wins = new List<int>();
+        int answer = int.MinValue;
         while (true)
         {
             (byte a1, byte a2, byte b1, byte b2, byte c1, byte c2, byte d1, byte d2) state;
@@ -31,7 +34,7 @@ class Program
             }
 
             Console.WriteLine($"Energy cost: {energy}, best count {best.Count}, state:");
-            Console.WriteLine(print(state));
+            //Console.WriteLine(print(state));
 
             //try and move each of the 8 characters
             for (int c = 1; c <= 8; c++)
@@ -59,10 +62,10 @@ class Program
                     var newEnergy = energy + (int)Math.Pow(10, (c - 1) / 2) * moves;
                     var newState = normaliseState(setCharacterPosition(state, c, endPos));
 
-                    Console.WriteLine($"Energy cost: {energy} -> {newEnergy}");
-                    Console.WriteLine(print(state));
-                    Console.WriteLine("===>");
-                    Console.WriteLine(print(newState));
+                    //Console.WriteLine($"Energy cost: {energy} -> {newEnergy}");
+                    //Console.WriteLine(print(state));
+                    //Console.WriteLine("===>");
+                    //Console.WriteLine(print(newState));
 
                     if (best.ContainsKey(newState))
                     {
@@ -80,19 +83,15 @@ class Program
 
                     if (newState.a1 == 12 && newState.a2 == 13 && newState.b1 == 14 && newState.b2 == 15 && newState.c1 == 16 && newState.c2 == 17 && newState.d1 == 18 && newState.d2 == 19)
                     {
-                        //done?
-                        wins.Add(newEnergy);
+                        answer = newEnergy;
+                        goto quit;
                     }
                 }
             }
-
-            if (priorityQueue.Count == 0)
-            {
-                Console.WriteLine("BOOM");
-            }
         }
 
-        Console.WriteLine(wins.Min());
+    quit:;
+        Console.WriteLine($"Minimum: {answer} in {watch.ElapsedMilliseconds}ms");
     }
 
     static string print((byte a1, byte a2, byte b1, byte b2, byte c1, byte c2, byte d1, byte d2) state)
