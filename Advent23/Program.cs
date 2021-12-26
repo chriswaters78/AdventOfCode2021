@@ -164,7 +164,7 @@ class Program
         var allCharPositions = new[] { state.a1, state.a2, state.b1, state.b2, state.c1, state.c2, state.d1, state.d2 };
 
         //trying to move character c (1..8) to position p (1..15)
-        var startPos = getCharacterPosition(state, c);
+        var startPos = allCharPositions[c - 1];
         if (isRoom(startPos))
         {
             //if it is in the bottom correct room
@@ -176,7 +176,7 @@ class Program
             if (startPos == topRoom(c))
             {
                 //INVALID if value in bottom room is correct
-                if (getCharacterPosition(state, otherChar(c)) == bottomRoom(c))
+                if (allCharPositions[otherChar(c) - 1] == bottomRoom(c))
                 {
                     return (false, 0);
                 }
@@ -201,7 +201,7 @@ class Program
                 {
                     //in an incorrect bottom room
                     //if any characters are in top room, invalid
-                    if (Enumerable.Range(1, 8).Any(c => getCharacterPosition(state, c) == startPos - 1))
+                    if (Enumerable.Range(1, 8).Any(c => allCharPositions[c - 1] == startPos - 1))
                     {
                         return (false, 0);
                     }
@@ -228,10 +228,10 @@ class Program
             if (topRoom(c) == endPos)
             {
                 //can move in only if bottom room contains correct character
-                if (getCharacterPosition(state, otherChar(c)) == bottomRoom(c))
+                if (allCharPositions[otherChar(c) - 1] == bottomRoom(c))
                 {
                     //and top room does not contain any characters
-                    if (Enumerable.Range(1, 8).Any(c => getCharacterPosition(state, c) == endPos))
+                    if (Enumerable.Range(1, 8).Any(c => allCharPositions[c - 1] == endPos))
                     {
                         return (false, 0);
                     }
@@ -246,7 +246,7 @@ class Program
             else if (bottomRoom(c) == endPos)
             {
                 //top room and bottom room must be empty
-                if (Enumerable.Range(1, 8).Any(c => getCharacterPosition(state, c) == endPos - 1 || getCharacterPosition(state,c) == endPos))
+                if (Enumerable.Range(1, 8).Any(c => allCharPositions[c - 1] == endPos - 1 || allCharPositions[c - 1] == endPos))
                 {
                     return (false, 0);
                 }
