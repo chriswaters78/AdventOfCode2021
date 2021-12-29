@@ -27,6 +27,7 @@ class Program
         priorityQueue.Enqueue((20, 22, 25, 27, 18, 21, 23, 24, 12, 16, 17, 26, 13, 14, 15, 19), 0);
 
         int answer = int.MinValue;
+        int movesChecked = 0;
         while (true)
         {
             (byte a1, byte a2, byte a3, byte a4, byte b1, byte b2, byte b3, byte b4, byte c1, byte c2, byte c3, byte c4, byte d1, byte d2, byte d3, byte d4) state;
@@ -36,8 +37,8 @@ class Program
                 break;
             }
 
-            Console.WriteLine($"Energy cost: {energy}, best count {best.Count}, state:");
-            Console.WriteLine(print(state));
+            //Console.WriteLine($"Energy cost: {energy}, best count {best.Count}, state:");
+            //Console.WriteLine(print(state));
 
             //try and move each of the 8 characters
             for (int c = 1; c <= 16; c++)
@@ -55,6 +56,7 @@ class Program
                         continue;
                     }
 
+                    movesChecked++;
                     //check if the move is valid
                     var (valid, moves) = isValidMove(state, c, endPos);
                     if (!valid)
@@ -98,6 +100,8 @@ class Program
 
     quit:;
         Console.WriteLine($"Minimum: {answer} in {watch.ElapsedMilliseconds}ms");
+        Console.WriteLine($"Best states recorded: {best.Count}");
+        Console.WriteLine($"Moves checked: {movesChecked}");
     }
 
     static string print((byte a1, byte a2, byte a3, byte a4, byte b1, byte b2, byte b3, byte b4, byte c1, byte c2, byte c3, byte c4, byte d1, byte d2, byte d3, byte d4) state)
